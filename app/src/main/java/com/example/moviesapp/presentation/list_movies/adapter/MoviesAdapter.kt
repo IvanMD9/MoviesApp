@@ -1,5 +1,6 @@
 package com.example.moviesapp.presentation.list_movies.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import coil.decode.SvgDecoder
 import coil.load
 import com.example.moviesapp.R
 import com.example.moviesapp.domain.model.ListPopularMovies
+import com.example.moviesapp.util.Constants
 
 class MoviesAdapter :
     PagingDataAdapter<ListPopularMovies, MoviesAdapter.MoviesViewHolder>(DiffUtilMovies()) {
@@ -20,10 +22,10 @@ class MoviesAdapter :
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val listItem = getItem(position)
-        val imageLoader = ImageLoader.Builder(holder.itemView.context)
-            .components { add(SvgDecoder.Factory()) }
-            .build()
-        holder.ivItemMovie.load(listItem?.poster_path, imageLoader)
+//        val imageLoader = ImageLoader.Builder(holder.itemView.context)
+//            .components { add(SvgDecoder.Factory()) }
+//            .build()
+        holder.ivItemMovie.load(Constants.IMAGE_URL + listItem?.poster_path)
         holder.tvItemMovie.text = listItem?.title
         holder.itemView.setOnClickListener {
             listItem?.let { id ->

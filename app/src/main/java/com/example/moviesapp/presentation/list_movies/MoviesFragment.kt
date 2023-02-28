@@ -1,6 +1,7 @@
 package com.example.moviesapp.presentation.list_movies
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.moviesapp.databinding.FragmentMoviesBinding
+import com.example.moviesapp.presentation.list_movies.adapter.LoadingStateAdapter
 import com.example.moviesapp.presentation.list_movies.adapter.MoviesAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
@@ -26,6 +30,7 @@ class MoviesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
+        Log.d("TAG", "MoviesFragment onCreateView")
         return binding.root
     }
 
@@ -43,6 +48,7 @@ class MoviesFragment : Fragment() {
                         binding.progressMoviesLoading.progress = View.VISIBLE
                     }
                     is MoviesState.ListMovies -> {
+                        Log.d("TAG", "${result.list} ----- result")
                         adapter.submitData(result.list)
                     }
                     is MoviesState.Initial -> {}
@@ -54,7 +60,9 @@ class MoviesFragment : Fragment() {
     private fun setupRcView() {
         adapter = MoviesAdapter()
         binding.rcViewMovies.layoutManager = GridLayoutManager(context, 3)
-        binding.rcViewMovies.adapter = adapter
+        binding.rcViewMovies.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter()
+        )
     }
 
     override fun onDestroy() {

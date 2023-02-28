@@ -7,8 +7,9 @@ import com.example.moviesapp.data.remote.MoviesApi
 import com.example.moviesapp.domain.model.ListPopularMovies
 import com.example.moviesapp.domain.repository.RepositoryMovies
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class RepositoryMoviesImpl(
+class RepositoryMoviesImpl @Inject constructor(
     private val api: MoviesApi
 ) : RepositoryMovies {
 

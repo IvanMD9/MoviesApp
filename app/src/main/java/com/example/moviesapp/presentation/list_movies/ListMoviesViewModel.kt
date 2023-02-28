@@ -1,13 +1,16 @@
 package com.example.moviesapp.presentation.list_movies
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.example.moviesapp.domain.use_case.GetListMoviesUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-
-class ListMoviesViewModel(
+import javax.inject.Inject
+@HiltViewModel
+class ListMoviesViewModel @Inject constructor(
     private val getListMoviesUseCase: GetListMoviesUseCase
 ) : ViewModel() {
 
