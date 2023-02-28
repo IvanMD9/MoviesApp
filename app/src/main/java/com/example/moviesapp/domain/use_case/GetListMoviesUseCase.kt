@@ -9,6 +9,5 @@ import javax.inject.Inject
 class GetListMoviesUseCase @Inject constructor(
     private val repository: RepositoryMovies
 ) {
-
     operator fun invoke(): Flow<PagingData<ListPopularMovies>> = repository.getListPopularMovies()
 }

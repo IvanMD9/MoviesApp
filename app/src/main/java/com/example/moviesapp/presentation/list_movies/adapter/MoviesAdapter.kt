@@ -22,9 +22,6 @@ class MoviesAdapter :
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val listItem = getItem(position)
-//        val imageLoader = ImageLoader.Builder(holder.itemView.context)
-//            .components { add(SvgDecoder.Factory()) }
-//            .build()
         holder.ivItemMovie.load(Constants.IMAGE_URL + listItem?.poster_path)
         holder.tvItemMovie.text = listItem?.title
         holder.itemView.setOnClickListener {

@@ -1,7 +1,6 @@
 package com.example.moviesapp.presentation.list_movies
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,25 +29,21 @@ class MoviesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
-        Log.d("TAG", "MoviesFragment onCreateView")
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRcView()
         observeViewState()
     }
-
     private fun observeViewState() {
         lifecycleScope.launch {
             viewModel.state.collect { result ->
                 when (result) {
                     is MoviesState.Loading -> {
-                        binding.progressMoviesLoading.progress = View.VISIBLE
+                        binding.progressMoviesLoading.visibility = View.VISIBLE
                     }
                     is MoviesState.ListMovies -> {
-                        Log.d("TAG", "${result.list} ----- result")
                         adapter.submitData(result.list)
                     }
                     is MoviesState.Initial -> {}
@@ -56,7 +51,6 @@ class MoviesFragment : Fragment() {
             }
         }
     }
-
     private fun setupRcView() {
         adapter = MoviesAdapter()
         binding.rcViewMovies.layoutManager = GridLayoutManager(context, 3)
@@ -64,7 +58,6 @@ class MoviesFragment : Fragment() {
             footer = LoadingStateAdapter()
         )
     }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
