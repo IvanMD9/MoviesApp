@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.moviesapp.R
 import com.example.moviesapp.databinding.FragmentMoviesBinding
 import com.example.moviesapp.presentation.list_movies.adapter.LoadingStateAdapter
 import com.example.moviesapp.presentation.list_movies.adapter.MoviesAdapter
+import com.example.moviesapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -35,6 +38,7 @@ class MoviesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRcView()
         observeViewState()
+        setupOnClickDetailWindow()
     }
     private fun observeViewState() {
         lifecycleScope.launch {
@@ -57,6 +61,15 @@ class MoviesFragment : Fragment() {
         binding.rcViewMovies.adapter = adapter.withLoadStateFooter(
             footer = LoadingStateAdapter()
         )
+    }
+
+    private fun setupOnClickDetailWindow() {
+        adapter.onClickListener = {
+            val bundle = Bundle()
+            bundle.putString(Constants.KEY_ID_DETAIL, it.id.toString())
+            findNavController().navigate(
+                R.id.action_moviesFragment_to_detailMovieFragment, bundle)
+        }
     }
     override fun onDestroy() {
         super.onDestroy()

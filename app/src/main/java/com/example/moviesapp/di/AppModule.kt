@@ -1,7 +1,9 @@
 package com.example.moviesapp.di
 
 import com.example.moviesapp.data.remote.MoviesApi
+import com.example.moviesapp.data.repository.RepositoryDetailMovieDetailImpl
 import com.example.moviesapp.data.repository.RepositoryMoviesImpl
+import com.example.moviesapp.domain.repository.RepositoryDetailMovie
 import com.example.moviesapp.domain.repository.RepositoryMovies
 import com.example.moviesapp.util.Constants
 import dagger.Module
@@ -20,10 +22,10 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideMoviesApi() : MoviesApi {
+    fun provideMoviesApi(): MoviesApi {
         val logger = HttpLoggingInterceptor()
         logger.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client : OkHttpClient.Builder = OkHttpClient.Builder()
+        val client: OkHttpClient.Builder = OkHttpClient.Builder()
         client.addInterceptor(logger)
 
         return Retrofit.Builder()
@@ -36,7 +38,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRepositoryMovies(api: MoviesApi) : RepositoryMovies {
+    fun provideRepositoryMovies(api: MoviesApi): RepositoryMovies {
         return RepositoryMoviesImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepositoryDetailMovie(api: MoviesApi): RepositoryDetailMovie {
+        return RepositoryDetailMovieDetailImpl(api)
     }
 }
