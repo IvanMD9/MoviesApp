@@ -22,7 +22,7 @@ class MoviesFragment : Fragment() {
 
     private var _binding: FragmentMoviesBinding? = null
     private val binding: FragmentMoviesBinding
-        get() = _binding ?: throw RuntimeException("FragmentWelcomeBinding == null")
+        get() = _binding ?: throw RuntimeException("FragmentMoviesBinding == null")
 
     private val viewModel: ListMoviesViewModel by viewModels()
     private lateinit var adapter: MoviesAdapter
@@ -34,27 +34,33 @@ class MoviesFragment : Fragment() {
         _binding = FragmentMoviesBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRcView()
         observeViewState()
         setupOnClickDetailWindow()
     }
+
     private fun observeViewState() {
         lifecycleScope.launch {
             viewModel.state.collect { result ->
-                when (result) {
-                    is MoviesState.Loading -> {
-                        binding.progressMoviesLoading.visibility = View.VISIBLE
-                    }
-                    is MoviesState.ListMovies -> {
-                        adapter.submitData(result.list)
-                    }
-                    is MoviesState.Initial -> {}
+                result.list?.let {
+                    adapter.submitData(it)
                 }
+//                when (result) {
+//                    is MoviesState.Loading -> {
+//                        binding.progressMoviesLoading.visibility = View.VISIBLE
+//                    }
+//                    is MoviesState.ListMovies -> {
+//                        adapter.submitData(result.list)
+//                    }
+//                    is MoviesState.Initial -> {}
+//                }
             }
         }
     }
+
     private fun setupRcView() {
         adapter = MoviesAdapter()
         binding.rcViewMovies.layoutManager = GridLayoutManager(context, 3)
@@ -68,9 +74,11 @@ class MoviesFragment : Fragment() {
             val bundle = Bundle()
             bundle.putString(Constants.KEY_ID_DETAIL, it.id.toString())
             findNavController().navigate(
-                R.id.action_moviesFragment_to_detailMovieFragment, bundle)
+                R.id.action_moviesFragment_to_detailMovieFragment, bundle
+            )
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

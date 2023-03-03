@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.widget.ConstraintSet.Constraint
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -44,11 +43,11 @@ class DetailMovieFragment : Fragment() {
     private fun observeViewState() {
         lifecycleScope.launch {
             viewModel.state.collect { result ->
-                result.detail?.let { initDetailView(it) }
                 if (result.loading) {
                     binding.progressBarDetail.visibility = View.VISIBLE
                 } else {
                     binding.progressBarDetail.visibility = View.INVISIBLE
+                    result.detail?.let { initDetailView(it) }
                 }
             }
         }
@@ -56,7 +55,7 @@ class DetailMovieFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun initDetailView(detailMovie: DetailMovie) {
-        binding.ivDetailImage.load(Constants.IMAGE_URL + detailMovie.poster_path)
+        binding.ivDetailImage.load(Constants.IMAGE_URL_780 + detailMovie.poster_path)
         binding.tvDetailTitle.text = detailMovie.title
         binding.tvDetailOverview.text = detailMovie.overview
         binding.tvDateDetail.text = dateFormatter(detailMovie.release_date)

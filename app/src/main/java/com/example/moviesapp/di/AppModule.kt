@@ -1,10 +1,12 @@
 package com.example.moviesapp.di
 
 import com.example.moviesapp.data.remote.MoviesApi
-import com.example.moviesapp.data.repository.RepositoryDetailMovieDetailImpl
-import com.example.moviesapp.data.repository.RepositoryMoviesImpl
+import com.example.moviesapp.data.repository.detail_movie.RepositoryDetailMovieDetailImpl
+import com.example.moviesapp.data.repository.movies.RepositoryMoviesImpl
+import com.example.moviesapp.data.repository.search.RepositorySearchMoviesImpl
 import com.example.moviesapp.domain.repository.RepositoryDetailMovie
 import com.example.moviesapp.domain.repository.RepositoryMovies
+import com.example.moviesapp.domain.repository.RepositorySearchMovies
 import com.example.moviesapp.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -46,5 +48,11 @@ object AppModule {
     @Singleton
     fun provideRepositoryDetailMovie(api: MoviesApi): RepositoryDetailMovie {
         return RepositoryDetailMovieDetailImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRepositorySearchMovies(api: MoviesApi): RepositorySearchMovies {
+        return RepositorySearchMoviesImpl(api)
     }
 }

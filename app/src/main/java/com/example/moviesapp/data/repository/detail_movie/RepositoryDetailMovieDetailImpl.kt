@@ -1,4 +1,4 @@
-package com.example.moviesapp.data.repository
+package com.example.moviesapp.data.repository.detail_movie
 
 import com.example.moviesapp.data.mappers.toDetailMovie
 import com.example.moviesapp.data.remote.MoviesApi

@@ -1,4 +1,4 @@
-package com.example.moviesapp.presentation.list_movies.adapter
+package com.example.moviesapp.presentation.search.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,13 +9,13 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.moviesapp.R
-import com.example.moviesapp.domain.model.ListPopularMovies
+import com.example.moviesapp.domain.model.SearchMovies
 import com.example.moviesapp.util.Constants
 
-class MoviesAdapter :
-    PagingDataAdapter<ListPopularMovies, MoviesAdapter.MoviesViewHolder>(DiffUtilMovies()) {
+class SearchMoviesAdapter :
+    PagingDataAdapter<SearchMovies, SearchMoviesAdapter.MoviesViewHolder>(DiffUtilSearchMovies()) {
 
-    var onClickListener: ((ListPopularMovies) -> Unit)? = null
+    var onClickListener: ((SearchMovies) -> Unit)? = null
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val listItem = getItem(position)

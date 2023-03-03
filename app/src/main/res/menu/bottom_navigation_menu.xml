@@ -9,7 +9,7 @@
         android:title=""
         android:icon="@drawable/search_movies" />
 
-    <item android:id="@+id/profileFragment"
+    <item android:id="@+id/profileActivity"
         android:title=""
         android:icon="@drawable/profile" />
 </menu>
