@@ -1,10 +1,9 @@
 package com.example.moviesapp.data.repository.auth
 
+import com.example.moviesapp.data.mappers.toAuthUser
 import com.example.moviesapp.data.remote.MoviesApi
-import com.example.moviesapp.domain.model.auth.BodyValidateData
-import com.example.moviesapp.domain.model.auth.NewToken
-import com.example.moviesapp.domain.model.auth.SessionId
-import com.example.moviesapp.domain.model.auth.ValidateData
+import com.example.moviesapp.domain.model.AuthUser
+import com.example.moviesapp.domain.model.auth.*
 import com.example.moviesapp.domain.repository.RepositoryAuthorization
 import javax.inject.Inject
 
@@ -20,7 +19,11 @@ class RepositoryAuthorizationImpl @Inject constructor(
         return api.postValidateData(body = bodyValidateData)
     }
 
-    override suspend fun postNewSessionId(token: String): SessionId {
-        return api.postNewSessionId(token = token)
+    override suspend fun postNewSessionId(token: BodySessionId): SessionId {
+        return api.postNewSessionId(requestToken = token)
+    }
+
+    override suspend fun getDataAccount(sessionId: String): AuthUser {
+        return api.getDataAccount(sessionId = sessionId).toAuthUser()
     }
 }

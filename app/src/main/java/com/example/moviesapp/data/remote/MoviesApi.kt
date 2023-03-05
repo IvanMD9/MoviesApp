@@ -1,12 +1,10 @@
 package com.example.moviesapp.data.remote
 
+import com.example.moviesapp.data.model.auth.AuthUserDto
 import com.example.moviesapp.data.model.detail.MovieDetailDto
 import com.example.moviesapp.data.model.list_movies.ListMoviesDto
 import com.example.moviesapp.data.model.search.SearchMoviesDto
-import com.example.moviesapp.domain.model.auth.BodyValidateData
-import com.example.moviesapp.domain.model.auth.NewToken
-import com.example.moviesapp.domain.model.auth.SessionId
-import com.example.moviesapp.domain.model.auth.ValidateData
+import com.example.moviesapp.domain.model.auth.*
 import com.example.moviesapp.util.Constants
 import retrofit2.Response
 import retrofit2.http.Body
@@ -46,9 +44,15 @@ interface MoviesApi {
         @Body body : BodyValidateData
     ) : ValidateData
 
-    @POST("authentication/token/validate_with_login")
+    @POST("authentication/session/new")
     suspend fun postNewSessionId(
         @Query("api_key") apiKey : String = Constants.API_KEY,
-        @Body token : String
+        @Body requestToken : BodySessionId
     ) : SessionId
+
+    @GET("account")
+    suspend fun getDataAccount(
+        @Query("api_key") apiKey : String = Constants.API_KEY,
+        @Query("session_id") sessionId : String
+    ) : AuthUserDto
 }

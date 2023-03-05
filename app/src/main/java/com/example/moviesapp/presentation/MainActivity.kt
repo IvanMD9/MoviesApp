@@ -1,19 +1,23 @@
 package com.example.moviesapp.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.moviesapp.R
+import com.example.moviesapp.data.storage.SessionManager
 import com.example.moviesapp.databinding.ActivityMainBinding
-import com.example.moviesapp.presentation.list_movies.MoviesFragment
+import com.example.moviesapp.presentation.profile.not_auth.ProfileViewModel
+import com.example.moviesapp.presentation.profile.not_auth.StateAuth
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel: ProfileViewModel by viewModels()
+    private val sessionManager: SessionManager? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -24,5 +28,18 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         binding.btnNavigation.setupWithNavController(navController)
+
+        val authState = viewModel.stateAuth
+        sessionManager?.getSessionId()
+
+        when (authState.value) {
+            is StateAuth.Auth -> {
+               navController.setGraph(R.navigation.nav_graph_auth)
+            }
+            is StateAuth.NotAuth -> {
+                navController.setGraph(R.navigation.nav_graph)
+            }
+            is StateAuth.Initial -> {}
+        }
     }
 }

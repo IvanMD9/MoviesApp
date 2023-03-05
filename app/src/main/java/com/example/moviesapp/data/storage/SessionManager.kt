@@ -2,13 +2,12 @@ package com.example.moviesapp.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import javax.inject.Inject
 
-private const val NAME = "movie_app"
 private const val NEW_TOKEN = "new_token"
-private const val VALIDATE_TOKEN = "validate_token"
 private const val SESSION_ID = "session_id"
 
-class SessionManager(context: Context) {
+class SessionManager @Inject constructor(context: Context) {
     private val sharedPrefs: SharedPreferences =
         context.getSharedPreferences(NAME, Context.MODE_PRIVATE)
 
@@ -20,19 +19,15 @@ class SessionManager(context: Context) {
         return sharedPrefs.getString(NEW_TOKEN, null)
     }
 
-    fun saveTokenValidateData(tokenValidate : String) {
-        sharedPrefs.edit().putString(VALIDATE_TOKEN, tokenValidate).apply()
-    }
-
-    fun getTokenValidateData(): String? {
-        return sharedPrefs.getString(VALIDATE_TOKEN, null)
-    }
-
     fun saveSessionId(sessionId : String) {
         sharedPrefs.edit().putString(SESSION_ID, sessionId).apply()
     }
 
     fun getSessionId(): String? {
         return sharedPrefs.getString(SESSION_ID, null)
+    }
+
+    companion object {
+        const val NAME = "movie_app"
     }
 }

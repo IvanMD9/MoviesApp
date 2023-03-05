@@ -2,36 +2,35 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/nav_graph_auth"
     app:startDestination="@id/moviesFragment">
 
     <fragment
         android:id="@+id/moviesFragment"
         android:name="com.example.moviesapp.presentation.list_movies.MoviesFragment"
-        android:label="MoviesFragment"
+        android:label="fragment_movies"
         tools:layout="@layout/fragment_movies" >
         <action
             android:id="@+id/action_moviesFragment_to_detailMovieFragment"
             app:destination="@id/detailMovieFragment" />
     </fragment>
     <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.example.moviesapp.presentation.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" >
-        <action
-            android:id="@+id/action_searchFragment_to_detailMovieFragment"
-            app:destination="@id/detailMovieFragment" />
-    </fragment>
-
-    <fragment
         android:id="@+id/detailMovieFragment"
         android:name="com.example.moviesapp.presentation.detail_movie.DetailMovieFragment"
         android:label="fragment_detail_movie"
         tools:layout="@layout/fragment_detail_movie" />
     <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.moviesapp.presentation.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_detailMovieFragment"
+            app:destination="@id/detailMovieFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.moviesapp.presentation.profile.not_auth.ProfileFragment"
-        android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        android:name="com.example.moviesapp.presentation.profile.auth.AuthFragment"
+        android:label="fragment_auth"
+        tools:layout="@layout/fragment_auth" />
 </navigation>

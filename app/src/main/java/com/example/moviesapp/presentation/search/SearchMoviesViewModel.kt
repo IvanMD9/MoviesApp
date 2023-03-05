@@ -31,10 +31,10 @@ class SearchMoviesViewModel @Inject constructor(
     }
 
     init {
-        getCharactersByName("")
+        getSearchMovies("")
     }
 
-    private fun getCharactersByName(query: String) {
+    private fun getSearchMovies(query: String) {
         getSearchMoviesUseCase(query).onEach {
             _state.emit(it)
         }.launchIn(viewModelScope)
@@ -45,7 +45,7 @@ class SearchMoviesViewModel @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
             delay(400L)
-            getCharactersByName(query)
+            getSearchMovies(query)
         }
     }
 }
