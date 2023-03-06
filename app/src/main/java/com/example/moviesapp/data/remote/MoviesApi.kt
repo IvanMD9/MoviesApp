@@ -1,17 +1,13 @@
 package com.example.moviesapp.data.remote
 
 import com.example.moviesapp.data.model.auth.AuthUserDto
-import com.example.moviesapp.data.model.detail.MovieDetailDto
+import com.example.moviesapp.data.model.detail.DetailMovieDto
 import com.example.moviesapp.data.model.list_movies.ListMoviesDto
 import com.example.moviesapp.data.model.search.SearchMoviesDto
 import com.example.moviesapp.domain.model.auth.*
 import com.example.moviesapp.util.Constants
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface MoviesApi {
     @GET("movie/popular")
@@ -20,11 +16,11 @@ interface MoviesApi {
         @Query("api_key") apiKey : String = Constants.API_KEY
     ) : Response<ListMoviesDto>
 
-    @GET("movie/{movie_id}")
+    @GET("movie/{movie_id}?&append_to_response=credits")
     suspend fun getDetailMovies(
         @Path("movie_id") id : String,
         @Query("api_key") apiKey : String = Constants.API_KEY
-    ) : MovieDetailDto
+    ) : DetailMovieDto
 
     @GET("search/movie")
     suspend fun getSearchMovies(

@@ -1,7 +1,6 @@
 package com.example.moviesapp.presentation.list_movies
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.cachedIn
 import com.example.moviesapp.domain.use_case.GetListMoviesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,19 +16,19 @@ class ListMoviesViewModel @Inject constructor(
     private val getListMoviesUseCase: GetListMoviesUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<ListUIState>(ListUIState.Initial)
-    val state: StateFlow<ListUIState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(MoviesState())
+    val state: StateFlow<MoviesState> = _state.asStateFlow()
 
     init {
-        _state.value = ListUIState.Loading
         getListMovies()
     }
     private fun getListMovies() {
+        _state.value = state.value.copy(isLoading = true)
         viewModelScope.launch {
             getListMoviesUseCase()
                 .cachedIn(viewModelScope)
                 .collect { result ->
-                    _state.value = ListUIState.ListMovies(list = result)
+                    _state.value = state.value.copy(list = result)
                 }
         }
     }

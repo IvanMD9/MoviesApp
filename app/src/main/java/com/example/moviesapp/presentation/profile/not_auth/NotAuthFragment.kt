@@ -13,14 +13,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.moviesapp.R
 import com.example.moviesapp.data.storage.SessionManager
-import com.example.moviesapp.databinding.FragmentProfileBinding
+import com.example.moviesapp.databinding.FragmentNotAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProfileFragment : Fragment() {
+class NotAuthFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding: FragmentProfileBinding
+    private var _binding: FragmentNotAuthBinding? = null
+    private val binding: FragmentNotAuthBinding
         get() = _binding ?: throw RuntimeException("FragmentNotAuthBinding == null")
 
     private val viewModel: ProfileViewModel by viewModels()
@@ -29,7 +29,7 @@ class ProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentNotAuthBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -71,7 +71,7 @@ class ProfileFragment : Fragment() {
         binding.btnAuthSignUp.setOnClickListener {
             viewModel.onAuthEvent(AuthEvent.ClickEnter)
             val sessionId = sessionManager?.getSessionId()
-            if (sessionId != null) {
+            if (sessionId == null) {
 
             } else {
                 Toast.makeText(context, "SessionId = $sessionId", Toast.LENGTH_LONG).show()

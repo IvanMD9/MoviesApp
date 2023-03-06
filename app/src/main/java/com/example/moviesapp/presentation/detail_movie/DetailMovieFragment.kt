@@ -9,9 +9,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.example.moviesapp.databinding.FragmentDetailMovieBinding
 import com.example.moviesapp.domain.model.DetailMovie
+import com.example.moviesapp.presentation.detail_movie.adapter.AdapterGenres
+import com.example.moviesapp.presentation.detail_movie.adapter.AdapterListActors
 import com.example.moviesapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -26,6 +29,8 @@ class DetailMovieFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentWelcomeBinding == null")
 
     private val viewModel: DetailMovieViewModel by viewModels()
+    private lateinit var adapterListActors: AdapterListActors
+    private lateinit var adapterListGenres: AdapterGenres
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +42,8 @@ class DetailMovieFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initRcViewActors()
+        initRcViewGenres()
         observeViewState()
         initToolbar()
     }
@@ -60,6 +67,20 @@ class DetailMovieFragment : Fragment() {
         }
     }
 
+    private fun initRcViewActors() {
+        adapterListActors = AdapterListActors()
+        binding.rcViewListActors.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rcViewListActors.adapter = adapterListActors
+    }
+
+    private fun initRcViewGenres() {
+        adapterListGenres = AdapterGenres()
+        binding.rcViewListGenres.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rcViewListGenres.adapter = adapterListGenres
+    }
+
     @SuppressLint("SetTextI18n")
     private fun initDetailView(detailMovie: DetailMovie) {
         binding.ivDetailImage.load(Constants.IMAGE_URL_780 + detailMovie.poster_path)
@@ -67,13 +88,8 @@ class DetailMovieFragment : Fragment() {
         binding.tvDetailOverview.text = detailMovie.overview
         binding.tvDateDetail.text = dateFormatter(detailMovie.release_date)
         binding.tvDetailRuntime.text = "${detailMovie.runtime} мин"
-        binding.tvDetailGenre.text = listGenre(detailMovie.genres).toString()
-    }
-
-    private fun listGenre(genre : List<String>) {
-        for (el in genre) {
-            print("$el ")
-        }
+        adapterListGenres.submitList(detailMovie.genres)
+        adapterListActors.submitList(detailMovie.credits)
     }
 
     @SuppressLint("SimpleDateFormat")

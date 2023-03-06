@@ -12,7 +12,6 @@ import javax.inject.Inject
 class GetDetailMovieUseCase @Inject constructor(
     private val repositoryDetailMovie: RepositoryDetailMovie
 ) {
-
     operator fun invoke(id : String) : Flow<Resource<DetailMovie>> = flow {
         try {
             emit(Resource.Loading())

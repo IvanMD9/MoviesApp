@@ -1,10 +1,11 @@
 package com.example.moviesapp.data.model.detail
 
-data class MovieDetailDto(
+data class DetailMovieDto(
     val adult: Boolean,
     val backdrop_path: String,
     val belongs_to_collection: Any,
     val budget: Int,
+    val credits: Credits,
     val genres: List<Genre>,
     val homepage: String,
     val id: Int,

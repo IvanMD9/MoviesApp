@@ -35,7 +35,6 @@ class TabsFragment : Fragment() {
 
         val navHost = childFragmentManager.findFragmentById(R.id.tabs_container) as NavHostFragment
         val navController = navHost.navController
-        val navGraph = navController.navInflater.inflate(R.navigation.profile_graph)
         NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
         val authState = viewModel.stateAuth
@@ -43,10 +42,10 @@ class TabsFragment : Fragment() {
 
         when (authState.value) {
             is StateAuth.Auth -> {
-                navGraph.setStartDestination(R.id.authFragment)
+                navController.setGraph(R.navigation.nav_graph_auth)
             }
             is StateAuth.NotAuth -> {
-                navGraph.setStartDestination(R.id.profileFragment)
+                navController.setGraph(R.navigation.nav_graph_not_auth)
             }
             is StateAuth.Initial -> {}
         }

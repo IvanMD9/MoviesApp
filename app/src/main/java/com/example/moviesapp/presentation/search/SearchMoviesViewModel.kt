@@ -44,7 +44,7 @@ class SearchMoviesViewModel @Inject constructor(
         _searchQuery.value = query
         searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(400L)
+            delay(500L)
             getSearchMovies(query)
         }
     }

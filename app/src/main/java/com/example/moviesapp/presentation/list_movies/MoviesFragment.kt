@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -17,6 +16,7 @@ import com.example.moviesapp.presentation.list_movies.adapter.MoviesAdapter
 import com.example.moviesapp.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+
 @AndroidEntryPoint
 class MoviesFragment : Fragment() {
 
@@ -45,21 +45,18 @@ class MoviesFragment : Fragment() {
     private fun observeViewState() {
         lifecycleScope.launch {
             viewModel.state.collect { result ->
-                when (result) {
-                    is ListUIState.Loading -> {
-                        binding.shimmerLayout.startShimmer()
-                    }
-                    is ListUIState.ListMovies -> {
-                        binding.shimmerLayout.stopShimmer()
-                        binding.shimmerLayout.isVisible = false
-
-                        result.list?.let { adapter.submitData(it) }
-                    }
-                    is ListUIState.Initial -> {}
+//                binding.progressBarMovies.visibility = View.INVISIBLE
+//                if (result.isLoading) {
+//                    binding.progressBarMovies.visibility = View.VISIBLE
+//                }
+                result.list?.let {
+                    adapter.submitData(it)
+                    //binding.progressBarMovies.visibility = View.INVISIBLE
                 }
             }
         }
     }
+
 
     private fun setupRcView() {
         adapter = MoviesAdapter()
