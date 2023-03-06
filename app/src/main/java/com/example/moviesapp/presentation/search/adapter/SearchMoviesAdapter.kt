@@ -1,0 +1,42 @@
+package com.example.moviesapp.presentation.search.adapter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import com.example.moviesapp.R
+import com.example.moviesapp.domain.model.SearchMovies
+import com.example.moviesapp.util.Constants
+
+class SearchMoviesAdapter :
+    PagingDataAdapter<SearchMovies, SearchMoviesAdapter.MoviesViewHolder>(DiffUtilSearchMovies()) {
+
+    var onClickListener: ((SearchMovies) -> Unit)? = null
+
+    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
+        val listItem = getItem(position)
+        holder.ivItemMovie.load(Constants.IMAGE_URL_185 + listItem?.poster_path)
+        holder.tvItemMovie.text = listItem?.title
+        holder.itemView.setOnClickListener {
+            listItem?.let { id ->
+                onClickListener?.invoke(id)
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
+        val view = LayoutInflater
+            .from(parent.context)
+            .inflate(R.layout.item_movie, parent, false)
+        return MoviesViewHolder(view)
+    }
+
+    class MoviesViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivItemMovie: ImageView = view.findViewById(R.id.iv_item_movie)
+        val tvItemMovie: TextView = view.findViewById(R.id.tv_item_movie)
+    }
+}
