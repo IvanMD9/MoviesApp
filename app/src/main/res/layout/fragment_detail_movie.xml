@@ -18,16 +18,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_detail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/purple_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:navigationIcon="@drawable/back_button"
+                app:title="Detail movie"
+                app:titleTextColor="@color/white" />
+
             <ImageView
                 android:id="@+id/iv_detail_image"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
-                android:scaleType="centerCrop"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@drawable/ic_launcher_foreground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/toolbar_detail" />
 
             <TextView
                 android:id="@+id/tv_detail_title"

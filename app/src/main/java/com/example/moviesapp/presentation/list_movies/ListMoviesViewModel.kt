@@ -17,11 +17,11 @@ class ListMoviesViewModel @Inject constructor(
     private val getListMoviesUseCase: GetListMoviesUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(ListUIState())
+    private val _state = MutableStateFlow<ListUIState>(ListUIState.Initial)
     val state: StateFlow<ListUIState> = _state.asStateFlow()
 
     init {
-        //_state.value = MoviesState.Loading
+        _state.value = ListUIState.Loading
         getListMovies()
     }
     private fun getListMovies() {
@@ -29,8 +29,7 @@ class ListMoviesViewModel @Inject constructor(
             getListMoviesUseCase()
                 .cachedIn(viewModelScope)
                 .collect { result ->
-                    _state.update { it.copy(list = result) }
-                    //_state.value = MoviesState.ListMovies(list = result)
+                    _state.value = ListUIState.ListMovies(list = result)
                 }
         }
     }

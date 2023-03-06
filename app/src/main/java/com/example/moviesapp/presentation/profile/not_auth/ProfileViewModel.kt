@@ -1,5 +1,6 @@
 package com.example.moviesapp.presentation.profile.not_auth
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,7 +31,6 @@ class ProfileViewModel @Inject constructor(
     init {
         getSessionId()
     }
-
     private fun getSessionId() {
         val sessionId = sessionManager.getSessionId()
         if (sessionId == null) {
@@ -39,7 +39,6 @@ class ProfileViewModel @Inject constructor(
             _stateAuth.value = StateAuth.Auth
         }
     }
-
     fun onAuthEvent(event: AuthEvent) {
         when (event) {
             is AuthEvent.ChangedLogin -> {
@@ -53,7 +52,6 @@ class ProfileViewModel @Inject constructor(
             }
         }
     }
-
     private fun authInSystem(
         login: String = stateData.signUpLogin,
         password: String = stateData.signUpPassword
@@ -76,6 +74,7 @@ class ProfileViewModel @Inject constructor(
                 )
             )
             sessionManager.saveSessionId(sessionId.session_id)
+            Log.d("TAG", "${sessionId.session_id} ------------ SESSION_ID")
         }
     }
 }

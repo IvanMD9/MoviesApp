@@ -35,8 +35,8 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         validateData()
+        clickEnter()
     }
-    @SuppressLint("ResourceType")
     private fun validateData() {
         binding.etAuthLogin.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -65,18 +65,19 @@ class ProfileFragment : Fragment() {
 
             }
         })
-
+    }
+    @SuppressLint("ResourceType")
+    private fun clickEnter() {
         binding.btnAuthSignUp.setOnClickListener {
             viewModel.onAuthEvent(AuthEvent.ClickEnter)
             val sessionId = sessionManager?.getSessionId()
             if (sessionId != null) {
-                findNavController().setGraph(R.id.nav_graph_auth)
+
             } else {
                 Toast.makeText(context, "SessionId = $sessionId", Toast.LENGTH_LONG).show()
             }
         }
     }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

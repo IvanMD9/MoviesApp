@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import coil.load
 import com.example.moviesapp.databinding.FragmentDetailMovieBinding
 import com.example.moviesapp.domain.model.DetailMovie
@@ -16,7 +17,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.List
 
 @AndroidEntryPoint
 class DetailMovieFragment : Fragment() {
@@ -38,6 +38,7 @@ class DetailMovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observeViewState()
+        initToolbar()
     }
 
     private fun observeViewState() {
@@ -50,6 +51,12 @@ class DetailMovieFragment : Fragment() {
                     result.detail?.let { initDetailView(it) }
                 }
             }
+        }
+    }
+
+    private fun initToolbar() {
+        binding.toolbarDetail.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
